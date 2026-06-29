@@ -25,14 +25,18 @@ async function review(id: string, action: 'approve' | 'reject') {
 
 <template>
   <div class="p-7 space-y-6">
-    <template v-if="!isAdminOrMod">
-      <p class="text-sm text-[#f43f5e]">Accès réservé aux administrateurs et modérateurs.</p>
-    </template>
+    <div v-if="!isAdminOrMod">
+      <p class="text-sm text-[#f43f5e]">Acces reserve aux administrateurs et moderateurs.</p>
+    </div>
     <template v-else>
-      <h2 class="text-lg font-semibold tracking-tight">⚙️ Administration</h2>
+      <h2 class="text-lg font-semibold tracking-tight flex items-center gap-2">
+        <Icon name="settings" :size="20" /> Administration
+      </h2>
 
       <div class="bg-[#141518] border border-[rgba(255,255,255,0.07)] rounded-lg p-6">
-        <h3 class="text-sm font-semibold mb-4">⏳ Dépôts en attente</h3>
+        <h3 class="text-sm font-semibold mb-4 flex items-center gap-2">
+          <Icon name="clock" :size="16" class="text-[#f59e0b]" /> Depots en attente
+        </h3>
         <div v-if="pendingDeposits.length" class="space-y-2">
           <div v-for="d in pendingDeposits" :key="d.id"
                class="flex items-center gap-4 px-4 py-3 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.07)] rounded">
@@ -43,9 +47,9 @@ async function review(id: string, action: 'approve' | 'reject') {
             <a v-if="d.proof" :href="d.proof" target="_blank" class="text-xs text-[#7170ff] hover:underline">Voir preuve</a>
             <div class="flex gap-2">
               <button @click="review(d.id, 'approve')"
-                      class="px-3 py-1.5 bg-[rgba(16,185,129,0.12)] text-[#10b981] rounded text-xs font-semibold hover:bg-[rgba(16,185,129,0.2)]">✅ Approuver</button>
+                      class="px-3 py-1.5 bg-[rgba(16,185,129,0.12)] text-[#10b981] rounded text-xs font-semibold hover:bg-[rgba(16,185,129,0.2)] flex items-center gap-1"><Icon name="check" :size="12" /> Approuver</button>
               <button @click="review(d.id, 'reject')"
-                      class="px-3 py-1.5 bg-[rgba(244,63,94,0.12)] text-[#f43f5e] rounded text-xs font-semibold hover:bg-[rgba(244,63,94,0.2)]">❌ Refuser</button>
+                      class="px-3 py-1.5 bg-[rgba(244,63,94,0.12)] text-[#f43f5e] rounded text-xs font-semibold hover:bg-[rgba(244,63,94,0.2)] flex items-center gap-1"><Icon name="x" :size="12" /> Refuser</button>
             </div>
           </div>
         </div>
@@ -54,7 +58,9 @@ async function review(id: string, action: 'approve' | 'reject') {
 
       <!-- Commandes admin -->
       <div class="bg-[#141518] border border-[rgba(255,255,255,0.07)] rounded-lg p-6">
-        <h3 class="text-sm font-semibold mb-4">🛠️ Gestion des membres</h3>
+        <h3 class="text-sm font-semibold mb-4 flex items-center gap-2">
+          <Icon name="settings" :size="16" /> Gestion des membres
+        </h3>
         <p class="text-xs text-[#767b85]">Les admins peuvent modifier les rôles et rangs des membres.</p>
       </div>
     </template>

@@ -3,11 +3,11 @@ const { data: session } = await useFetch('/api/auth/session')
 const user = computed(() => session.value?.user)
 
 const navItems = [
-  { label: 'Dashboard', icon: '📊', to: '/' },
-  { label: 'Événements', icon: '⚡', to: '/events' },
-  { label: 'Ligue & Profil', icon: '🏆', to: '/league' },
-  { label: 'Membres', icon: '👥', to: '/members' },
-  { label: 'Dépôt Argent', icon: '💰', to: '/depot' },
+  { label: 'Dashboard', icon: 'dashboard', to: '/' },
+  { label: 'Evenements', icon: 'zap', to: '/events' },
+  { label: 'Ligue & Profil', icon: 'trophy', to: '/league' },
+  { label: 'Membres', icon: 'users', to: '/members' },
+  { label: 'Depot Argent', icon: 'dollar', to: '/depot' },
 ]
 
 const isAdminOrMod = computed(() =>
@@ -25,7 +25,7 @@ const isAdminOrMod = computed(() =>
           <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7170ff] to-[#22d3ee] flex items-center justify-center text-white font-extrabold text-sm flex-shrink-0">P</div>
           <div>
             <h3 class="text-sm font-semibold tracking-tight">Team Plasma</h3>
-            <span class="text-[11px] text-[#5a5e66] font-medium">PokéPlasma · Nv.42</span>
+            <span class="text-[11px] text-[#5a5e66] font-medium">Pokoplasma · Nv.42</span>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@ const isAdminOrMod = computed(() =>
           <NuxtLink :to="item.to"
                     class="flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium transition-all duration-150"
                     :class="$route.path === item.to ? 'bg-[rgba(113,112,255,0.12)] text-[#7170ff] border border-[rgba(113,112,255,0.15)]' : 'text-[#5a5e66] hover:text-[#b0b5c0] hover:bg-[rgba(255,255,255,0.02)]'">
-            <span class="text-sm w-4 text-center">{{ item.icon }}</span>
+            <Icon :name="item.icon" :size="16" class="flex-shrink-0" />
             {{ item.label }}
           </NuxtLink>
         </div>
@@ -45,7 +45,7 @@ const isAdminOrMod = computed(() =>
         <NuxtLink v-if="isAdminOrMod" to="/admin"
                   class="flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium transition-all duration-150"
                   :class="$route.path === '/admin' ? 'bg-[rgba(113,112,255,0.12)] text-[#7170ff] border border-[rgba(113,112,255,0.15)]' : 'text-[#5a5e66] hover:text-[#b0b5c0] hover:bg-[rgba(255,255,255,0.02)]'">
-          <span class="text-sm w-4 text-center">⚙️</span>
+          <Icon name="settings" :size="16" class="flex-shrink-0" />
           Administration
         </NuxtLink>
       </nav>
@@ -65,11 +65,14 @@ const isAdminOrMod = computed(() =>
                 <span v-else-if="user.role === 'MODERATOR'" class="text-[#22d3ee] ml-1">· Mod</span>
               </div>
             </div>
-            <a href="/api/auth/logout" class="text-xs text-[#5a5e66] hover:text-[#f43f5e] transition-colors" title="Déconnexion">🚪</a>
+            <a href="/api/auth/logout" class="text-xs text-[#5a5e66] hover:text-[#f43f5e] transition-colors" title="Deconnexion">
+              <Icon name="logout" :size="16" />
+            </a>
           </div>
         </template>
         <NuxtLink v-else to="/login" class="flex items-center gap-2 text-xs text-[#7170ff] hover:text-[#8b8aff] transition-colors">
-          🔐 Connexion
+          <Icon name="login" :size="14" />
+          Connexion
         </NuxtLink>
       </div>
     </aside>

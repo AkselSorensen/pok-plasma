@@ -16,7 +16,9 @@ const badgeStatusLabels: Record<string, string> = {
 
 <template>
   <div class="p-7 space-y-6">
-    <h2 class="text-lg font-semibold tracking-tight">🏆 Ligue & Profil</h2>
+    <h2 class="text-lg font-semibold tracking-tight flex items-center gap-2">
+      <Icon name="trophy" :size="20" class="text-[#f59e0b]" /> Ligue & Profil
+    </h2>
 
     <!-- Profile Header -->
     <div class="bg-[#141518] border border-[rgba(255,255,255,0.07)] rounded-lg p-6 flex items-center gap-6">

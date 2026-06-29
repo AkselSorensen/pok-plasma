@@ -14,7 +14,7 @@
           <span class="text-xl font-semibold tracking-tight">PokéPlasma</span>
         </div>
         <h1 class="text-2xl font-bold tracking-tight mt-6">Connexion Guilde</h1>
-        <p class="text-sm text-[#767b85] mt-2">Connecte-toi pour accéder au tableau de bord</p>
+        <p class="text-sm text-[#767b85] mt-2">Connecte-toi pour acceder au tableau de bord</p>
       </div>
 
       <!-- Discord Button -->

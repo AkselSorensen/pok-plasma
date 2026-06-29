@@ -32,12 +32,14 @@ async function submitDeposit() {
 
 <template>
   <div class="p-7 space-y-6">
-    <h2 class="text-lg font-semibold tracking-tight">💰 Dépôt Argent</h2>
-    <p class="text-sm text-[#767b85]">Dépose ton argent IG pour faire monter la bourse de guilde et ton classement.</p>
+    <h2 class="text-lg font-semibold tracking-tight flex items-center gap-2">
+      <Icon name="dollar" :size="20" class="text-[#10b981]" /> Depot Argent
+    </h2>
+    <p class="text-sm text-[#767b85]">Depose ton argent IG pour faire monter la bourse de guilde et ton classement.</p>
 
     <!-- Formulaire -->
     <div class="bg-[#141518] border border-[rgba(255,255,255,0.07)] rounded-lg p-6 max-w-lg">
-      <h3 class="text-sm font-semibold mb-4">Nouveau dépôt</h3>
+      <h3 class="text-sm font-semibold mb-4 flex items-center gap-2"><Icon name="dollar" :size="16" /> Nouveau depot</h3>
       <div v-if="success" class="text-sm text-[#10b981] bg-[rgba(16,185,129,0.1)] p-3 rounded mb-4">{{ success }}</div>
       <div v-if="error" class="text-sm text-[#f43f5e] bg-[rgba(244,63,94,0.1)] p-3 rounded mb-4">{{ error }}</div>
       <form @submit.prevent="submitDeposit" class="space-y-4">
