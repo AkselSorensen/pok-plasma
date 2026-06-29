@@ -34,6 +34,7 @@ model User {
   guildId       String?
   guild         Guild?   @relation(fields: [guildId], references: [id])
   eventParticipations EventParticipation[]
+  sessions      Session[]
 }
 
 enum UserRole {
@@ -171,4 +172,16 @@ model SeasonRanking {
   season    Season @relation(fields: [seasonId], references: [id])
 
   @@unique([seasonId, userId])
+}
+
+// ─── SESSION AUTH ───
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([token])
 }

@@ -60,6 +60,12 @@
 const username = ref('')
 const password = ref('')
 
+// Rediriger si déjà connecté
+const { data: session } = await useFetch('/api/auth/session')
+if (session.value?.user) {
+  await navigateTo('/')
+}
+
 const discordAuthUrl = ref('#')
 
 onMounted(() => {
