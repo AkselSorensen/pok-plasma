@@ -1,4 +1,4 @@
-import prisma from '../utils/prisma'
+import prisma from '../../utils/prisma'
 import { randomBytes } from 'node:crypto'
 
 const config = useRuntimeConfig()
