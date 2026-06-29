@@ -60,11 +60,14 @@
 const username = ref('')
 const password = ref('')
 
-const discordAuthUrl = computed(() => {
+const discordAuthUrl = ref('#')
+
+onMounted(() => {
   const clientId = useRuntimeConfig().public.discordClientId
-  if (!clientId) return '#'
-  const redirect = encodeURIComponent(`${window.location.origin}/api/auth/callback`)
-  return `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirect}&response_type=code&scope=identify`
+  if (clientId) {
+    const redirect = encodeURIComponent(`${window.location.origin}/api/auth/callback`)
+    discordAuthUrl.value = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirect}&response_type=code&scope=identify`
+  }
 })
 
 function handleLogin() {
