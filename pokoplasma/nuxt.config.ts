@@ -5,12 +5,12 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
-    '@sidebase/nuxt-auth',
   ],
 
   css: ['~/assets/css/main.css'],
 
   nitro: {
+    preset: 'vercel',
     plugins: ['~/server/plugins/prisma.ts'],
   },
 
@@ -21,19 +21,6 @@ export default defineNuxtConfig({
     databaseUrl: process.env.DATABASE_URL,
     public: {
       discordClientId: process.env.DISCORD_CLIENT_ID,
-    },
-  },
-
-  auth: {
-    provider: {
-      type: 'local',
-      endpoints: {
-        signIn: { path: '/api/auth/discord', method: 'POST' },
-        signOut: { path: '/api/auth/logout', method: 'POST' },
-        getSession: { path: '/api/auth/session', method: 'GET' },
-      },
-      token: { signInResponseTokenPointer: '/token' },
-      pages: { login: '/login' },
     },
   },
 
