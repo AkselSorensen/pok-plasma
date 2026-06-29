@@ -11,7 +11,6 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'vercel',
-    plugins: ['~/server/plugins/prisma.ts'],
   },
 
   runtimeConfig: {
