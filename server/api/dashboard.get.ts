@@ -18,7 +18,10 @@ export default defineEventHandler(async () => {
   })
 
   return {
-    guild,
+    guild: guild ? {
+      ...guild,
+      treasury: Number(guild.treasury),
+    } : null,
     memberCount,
     activeEvents,
     topMembers: topMembers.map((m, i) => ({ ...m, rank: i + 1 })),
