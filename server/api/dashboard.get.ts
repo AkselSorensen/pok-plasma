@@ -1,4 +1,4 @@
-import prisma from '../plugins/prisma'
+import prisma from '../utils/prisma'
 
 export default defineEventHandler(async () => {
   const [guild, memberCount, activeEvents, topMembers] = await Promise.all([
