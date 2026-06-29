@@ -1,0 +1,1 @@
+import{_ as n,c as o,a as e,o as r}from"./lpzJ5WRo.js";const s={};function l(t,a){return r(),o("div",null,[...a[0]||(a[0]=[e("h1",null,"PokéPlasma",-1),e("p",null,"Team Plasma Dashboard",-1),e("a",{href:"/login"},"Connexion",-1)])])}const d=n(s,[["render",l]]);export{d as default};
