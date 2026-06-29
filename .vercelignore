@@ -1,0 +1,5 @@
+.env
+.next/
+.cache/
+dist/
+node_modules/
