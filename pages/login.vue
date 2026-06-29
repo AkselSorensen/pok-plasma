@@ -57,6 +57,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: 'blank' })
+
 const username = ref('')
 const password = ref('')
 

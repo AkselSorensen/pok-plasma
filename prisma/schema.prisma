@@ -27,6 +27,7 @@ model User {
   pvpWins       Int      @default(0)
   pvpLosses     Int      @default(0)
   totalPoints   Int      @default(0)
+  totalDeposited BigInt  @default(0)
   avatarUrl     String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -34,6 +35,7 @@ model User {
   guildId       String?
   guild         Guild?   @relation(fields: [guildId], references: [id])
   eventParticipations EventParticipation[]
+  deposits      Deposit[]
   sessions      Session[]
 }
 
@@ -184,4 +186,26 @@ model Session {
   user      User     @relation(fields: [userId], references: [id])
 
   @@index([token])
+}
+
+// ─── DÉPÔTS ARGENT ───
+model Deposit {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    BigInt
+  status    DepositStatus @default(PENDING)
+  proof     String?   // URL d'une capture d'écran ou lien
+  reviewedBy String?  // ID du modérateur qui a approuvé/refusé
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
+
+enum DepositStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
