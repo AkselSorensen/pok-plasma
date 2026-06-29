@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── UTILISATEURS / MEMBRES ───
+model User {
+  id            String   @id @default(cuid())
+  discordId     String?  @unique
+  discordUsername String?
+  discordAvatar  String?
+  username      String   @unique
+  email         String?  @unique
+  passwordHash  String?
+  role          UserRole @default(MEMBER)
+  guildRank     String?   // "Champion", "Elite 4", "Membre"
+  userBadges    UserBadge[]
+  portalRank    PortalRank @default(D)
+  portalCleared Int      @default(0)
+  portalSolo    Int      @default(0)
+  portalTeam    Int      @default(0)
+  portalSuccessRate Float? @default(0)
+  pvpWins       Int      @default(0)
+  pvpLosses     Int      @default(0)
+  totalPoints   Int      @default(0)
+  avatarUrl     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  guildId       String?
+  guild         Guild?   @relation(fields: [guildId], references: [id])
+  eventParticipations EventParticipation[]
+}
+
+enum UserRole {
+  ADMIN
+  MODERATOR
+  MEMBER
+}
+
+enum PortalRank {
+  D
+  C
+  B
+  A
+  S
+}
+
+// ─── GUILDE ───
+model Guild {
+  id          String   @id @default(cuid())
+  name        String   @default("Team Plasma")
+  level       Int      @default(1)
+  treasury    BigInt   @default(0)
+  globalRank  Int      @default(0)
+  members     User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  events      Event[]
+}
+
+// ─── BADGES (8 badges d'Unys) ───
+model Badge {
+  id          String    @id @default(cuid())
+  name        String    // Basic, Toxic, Insecte, Volt, Quatuor, Air, Mine, Glaive
+  gymLeader   String    // Rachis, Strykna, Aloé, Ludvignac, Artie, Antonine, Bardane, Rachel
+  type        String    // Plante, Poison, Insecte, Électrik, Sol, Vol, Glace, Dragon
+  icon        String    // 💚💙🩶⚡🟤🟣🔶🔷
+  difficulty  String    // D, C, C, B, A, A, B, S
+  order       Int
+
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  status    BadgeStatus @default(LOCKED) // CONQUERED, IN_PROGRESS, LOCKED
+  conqueredAt DateTime?
+  user      User     @relation(fields: [userId], references: [id])
+  badge     Badge    @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+}
+
+enum BadgeStatus {
+  CONQUERED
+  IN_PROGRESS
+  LOCKED
+}
+
+// ─── ÉVÉNEMENTS ───
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  type        EventType
+  description String
+  location    String?
+  status      EventStatus @default(UPCOMING)
+  startsAt    DateTime?
+  endsAt      DateTime?
+  rewards     String?   // JSON: rewards structure
+  guildId     String?
+  guild       Guild?    @relation(fields: [guildId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  participations EventParticipation[]
+}
+
+enum EventType {
+  AIRDROP
+  RECOLTE
+  FISHING
+  TEAMHUNT
+  MEGARAID
+}
+
+enum EventStatus {
+  ACTIVE
+  UPCOMING
+  ENDED
+}
+
+model EventParticipation {
+  id        String   @id @default(cuid())
+  userId    String
+  eventId   String
+  score     Int      @default(0)
+  rank      Int?
+  reward    String?  // JSON
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
+}
+
+// ─── ACTIVITÉ / LOG ───
+model Activity {
+  id        String   @id @default(cuid())
+  type      String   // event, raid, pvp, portal
+  message   String
+  userId    String?
+  userName  String?
+  createdAt DateTime @default(now())
+}
+
+// ─── CLASSEMENT SAISONNIER ───
+model Season {
+  id        String   @id @default(cuid())
+  name      String   // "Saison 3"
+  isActive  Boolean  @default(true)
+  startsAt  DateTime @default(now())
+  endsAt    DateTime?
+  rankings  SeasonRanking[]
+}
+
+model SeasonRanking {
+  id        String @id @default(cuid())
+  seasonId  String
+  userId    String
+  points    Int    @default(0)
+  rank      Int
+  season    Season @relation(fields: [seasonId], references: [id])
+
+  @@unique([seasonId, userId])
+}
