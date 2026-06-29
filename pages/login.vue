@@ -61,6 +61,7 @@ definePageMeta({ layout: 'blank' })
 
 const username = ref('')
 const password = ref('')
+const discordAuthUrl = ref('#')
 
 // Rediriger si déjà connecté
 const { data: session } = await useFetch('/api/auth/session')
@@ -68,15 +69,17 @@ if (session.value?.user) {
   await navigateTo('/')
 }
 
-const discordAuthUrl = ref('#')
-
-onMounted(() => {
-  const clientId = useRuntimeConfig().public.discordClientId
+// Construction URL Discord safe (client only)
+async function buildDiscordUrl() {
+  if (import.meta.server) return
+  const config = useRuntimeConfig()
+  const clientId = config.public.discordClientId
   if (clientId) {
     const redirect = encodeURIComponent(`${window.location.origin}/api/auth/callback`)
     discordAuthUrl.value = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirect}&response_type=code&scope=identify`
   }
-})
+}
+buildDiscordUrl()
 
 function handleLogin() {
   if (!username.value || !password.value) return
